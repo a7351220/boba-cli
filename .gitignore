@@ -1,0 +1,18 @@
+# 環境變數（含所有 token）
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# 輸出檔案（圖片、日報存檔）
+output/
+history/
+
+# 暫存
+/tmp/
+*.tmp
+
+# macOS
+.DS_Store

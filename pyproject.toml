@@ -1,0 +1,10 @@
+[project]
+name = "boba-cli"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.28",
+]
+
+[project.scripts]
+boba = "cli:main"
