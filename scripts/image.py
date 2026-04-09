@@ -72,19 +72,28 @@ def generate_carousel(mmdd: str, date_label: str,
 
 
 def copy_ending_slide(mmdd: str) -> bool:
-    ig_dir = OUTPUT_DIR / f"ig-{mmdd}"
-    today  = date(int("20" + mmdd[:2] if len(mmdd) == 4 else mmdd[:4]),
-                  int(mmdd[-4:-2]) if len(mmdd) > 4 else int(mmdd[:2]),
-                  int(mmdd[-2:]))
-    prev   = today - timedelta(days=1)
-    prev_mmdd = prev.strftime("%m%d")
-    src    = OUTPUT_DIR / f"ig-{prev_mmdd}/slide-ending.png"
-    if src.exists():
-        dst = ig_dir / "slide-ending.png"
-        run(["cp", str(src), str(dst)])
-        print(f"✅ 結尾 slide 複製：{dst}", file=sys.stderr)
+    ig_dir  = OUTPUT_DIR / f"ig-{mmdd}"
+    dst     = ig_dir / "slide-ending.png"
+
+    # 優先用 repo 內建的結尾圖
+    bundled = BASE_DIR / "img/slide-ending.png"
+    if bundled.exists():
+        run(["cp", str(bundled), str(dst)])
+        print(f"✅ 結尾 slide 複製（內建）：{dst}", file=sys.stderr)
         return True
-    print(f"⚠️  找不到前一天結尾 slide（{prev_mmdd}）", file=sys.stderr)
+
+    # 退而求其次：前一天的輸出
+    today     = date(int("20" + mmdd[:2] if len(mmdd) == 4 else mmdd[:4]),
+                     int(mmdd[-4:-2]) if len(mmdd) > 4 else int(mmdd[:2]),
+                     int(mmdd[-2:]))
+    prev_mmdd = (today - timedelta(days=1)).strftime("%m%d")
+    src       = OUTPUT_DIR / f"ig-{prev_mmdd}/slide-ending.png"
+    if src.exists():
+        run(["cp", str(src), str(dst)])
+        print(f"✅ 結尾 slide 複製（前一天）：{dst}", file=sys.stderr)
+        return True
+
+    print(f"⚠️  找不到結尾 slide", file=sys.stderr)
     return False
 
 
