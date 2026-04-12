@@ -87,7 +87,7 @@ DATA_RICH 佔比：?%
 > **正式頻道 @bobadaoann**：只發 TG 長版，不發 Twitter 版和配圖。Twitter 版是給 X 用的，配圖是給 IG ���的，發到正式頻道會洗版。
 > **容錯規則**：TG 版發送成功 = 主流程完成。Twitter 版或配圖如因 rate limit / error 失敗，記錄原因後繼續後續步驟，不卡住 pipeline。
 
-1. **寫檔**：用 Write 工具（非 bash heredoc）寫入 `/tmp/boba_daily_tg.txt` 和 `/tmp/boba_daily_x.txt`
+1. **寫檔**：用 Write 工具（非 bash heredoc）寫入 `/tmp/boba_daily_tg.txt`、`/tmp/boba_daily_x.txt` 和 `/tmp/boba_daily_ig.txt`（IG 文案，格式見 `daily-images.md` Step 5）。**三個檔案一起產出，不要等到 Phase 5 才補 IG 文案**
 2. **驗證**：用 Python 檢查 `\ufffd` 數量 = 0，不通過不發送
 3. 讀 `send-telegram` Skill → 發送 TG 版 + Twitter 版到 **@test3635**
 4. **使用者確認後**，只發 **TG 版**到 **@bobadaoann** 正式頻道（必須等使用者同意）

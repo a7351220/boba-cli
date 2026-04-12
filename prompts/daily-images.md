@@ -6,15 +6,16 @@
 
 ## Step 0：構思 Prompt（先想再生）
 
-**核心原則**：場景必須是「有敘事感的廣角環境」，用畫面隱喻新聞主題，**不要把新聞直譯成圖示**（像「BTC 漲 → 多螢幕綠 K 線」這種翻譯題太無聊）。
+**核心原則**：場景是台灣日常 + **新聞彩蛋**。不是只用氛圍隱喻，要把當天新聞的人物/事件用**荒謬、抽象、好笑**的方式藏進畫面當彩蛋，讓讀者會心一笑。
 
 | 規則 | 說明 |
 |------|------|
-| 1. 場景氛圍 | 用台灣日常場景的「氛圍」呼應今天新聞的情緒，**不需要一一對應到具體新聞**。只要畫面感覺對了就夠。不要把新聞道具塞進畫面（沒有K線圖、沒有比特幣符號、沒有船模型） |
-| 2. 環境為主 | 廣角鏡頭，Pepe **只占畫面 25-30%**，整個場景說故事。**禁止 Pepe 大頭特寫** |
-| 3. Pepe 在側 | Pepe 站在右側或左側 1/3，3/4 角度半身，融入場景，不是肖像照 |
-| 4. 細節豐富 | 招牌、燈籠、機車、霧氣、街燈、電線、貓、招牌反光、湯鍋蒸氣——讓畫面有層次 |
-| 5. 場景輪替 | **每天必須選不同場景**，嚴禁連續兩天用同類型（便利商店 / 騎樓 / 夜市）。見下方場景庫 |
+| 1. 新聞彩蛋（必做） | 從 8 則新聞中挑 **2-3 個最有畫面感的事件**，轉化成背景裡的荒謬元素。例如：油價波動 → 油桶坐雲霄飛車；CZ vs Star 吵架 → 兩人在攤位互指；機構搶買 → 西裝人抱金幣狂跑。**可以很誇張很搞笑**，不用寫實 |
+| 2. 真實人物直接畫 | 涉及公眾人物時，用誇張化的辨識特徵直接畫（如：CZ = 光頭 + Binance 黃 hoodie；Elon = 黑色外套 + 誇張表情）。不需要擬人化動物替代 |
+| 3. 環境為主 | 廣角鏡頭，Pepe **只占畫面 25-30%**，整個場景說故事。**禁止 Pepe 大頭特寫** |
+| 4. Pepe 在側 | Pepe 站在右側或左側 1/3，3/4 角度半身，融入場景，不是肖像照 |
+| 5. 細節豐富 | 招牌、燈籠、機車、霧氣、街燈、電線、貓、招牌反光、湯鍋蒸氣——讓畫面有層次 |
+| 6. 場景輪替 | **每天必須選不同場景**，嚴禁連續兩天用同類型（便利商店 / 騎樓 / 夜市）。見下方場景庫 |
 
 > **每天回顧前 3 天的圖**，場景/時段/光線都要不同。連續兩天同場景類型 = 失敗。
 
@@ -80,7 +81,7 @@ Boba Pepe (matching the first 3 reference images exactly):
 BEIGE/TAN/CREAM colored body and head (NOT GREEN, NOT a normal frog),
 LARGE irregular dark brown cow-like patches/spots scattered across head and body,
 very large round white eyes with large black round pupils and white sparkle reflections,
-a LONG horizontal orange beak/snout extending forward (like a duckbill),
+a SHORT rounded orange beak/snout (NOT long, NOT like a duckbill),
 dark brown hooded sweatshirt, plump round body, classic Pepe proportions.
 ONLY ONE Pepe in the entire frame, no duplicates.
 ```
@@ -112,10 +113,16 @@ newsroom desk.
 ## Prompt 完整模板
 
 ```
-Wide cinematic environment shot of {台灣場景} at {時段}, in clean digital
-cartoon illustration with bold black outlines, Studio Ghibli style cozy
-atmosphere. The composition is ENVIRONMENT-FOCUSED — the wide scene takes
-up most of the frame, with rich atmospheric details.
+IMPORTANT: THIS IMAGE MUST BE HORIZONTAL LANDSCAPE 16:9 WIDE FORMAT.
+The width must be significantly greater than the height.
+DO NOT generate a vertical or portrait image.
+
+Wide cinematic HORIZONTAL LANDSCAPE environment shot of {台灣場景} at {時段},
+viewed from a LOW WIDE ANGLE showing the full width of the scene stretching
+left to right. Clean digital cartoon illustration with bold black outlines,
+Studio Ghibli style cozy atmosphere. The composition is WIDE and HORIZONTAL
+— showing buildings, stalls, and sky spanning the full width of the frame,
+with rich atmospheric details.
 
 ONLY ONE small character — Boba Pepe — standing on the {左/右} side of the
 frame, occupying ONLY about 25-30% of the frame width, integrated INTO the
@@ -125,8 +132,12 @@ half-body visible. He is {動作 — 拿珍奶/吃早餐/騎機車/看遠方} wi
 
 [Pepe 角色 lock 段落 — 見上方]
 
+EASTER EGGS spread across the WIDE scene from left to right:
+- {彩蛋 1：從新聞挑的荒謬場景，含人物特徵描述}
+- {彩蛋 2：從新聞挑的荒謬場景}
+- {彩蛋 3（可選）：從新聞挑的荒謬場景}
+
 THE SCENE: {細節豐富的場景描述 — 招牌、燈、機車、霧氣、店家、街景}.
-{敘事道具 — 用畫面隱喻今日新聞 hook}.
 
 [Penny 電視主播段落 — 見上方]
 
@@ -136,6 +147,7 @@ Color palette: {主色調 — 拂曉橘紫/深夜霓虹/雨夜冷色}.
 [結尾固定 negative anchor — 見上方]
 
 Absolutely NO text NO numbers NO labels NO words NO logos.
+MUST BE HORIZONTAL LANDSCAPE WIDE FORMAT.
 ```
 
 **參考圖固定 5 張**：`pepe3.png` `pepe.png` `pepe4.png` `penny1.jpg` `penny2.jpg`

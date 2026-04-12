@@ -179,7 +179,7 @@ def generate_slide_html(num, title, body, cover_url, logo_url, total, font_url='
 </body>
 </html>'''
 
-def generate_cover_html(cover_url, logo_url, date, hook, font_url=''):
+def generate_cover_html(cover_url, logo_url, date, hook, font_url='', port=18765):
     """Generate cover HTML with headline + same bottom bar as content slides"""
     return f'''<!DOCTYPE html>
 <html>
@@ -298,7 +298,7 @@ def generate_cover_html(cover_url, logo_url, date, hook, font_url=''):
   <div class="overlay">
     <div style="flex:1"></div>
     <div class="headline">
-      <div class="date-badge">🧋 {date} 每日快報</div>
+      <div class="date-badge"><img src="http://localhost:{port}/boba-emoji.png" style="height:1.2em;vertical-align:middle;margin-right:4px"> {date} 每日快報</div>
       <h1 class="hook">{hook}</h1>
       <div class="swipe">👉 滑動看完整 8 則新聞</div>
     </div>
@@ -397,6 +397,11 @@ def main():
     tmpdir = tempfile.mkdtemp(prefix='boba-ig-')
     shutil.copy(cover_image, os.path.join(tmpdir, 'cover.png'))
 
+    # Copy boba emoji PNG for inline use
+    boba_emoji_src = os.path.join(boba_dir, 'img', 'boba-emoji.png')
+    if os.path.isfile(boba_emoji_src):
+        shutil.copy(boba_emoji_src, os.path.join(tmpdir, 'boba-emoji.png'))
+
     # Copy bundled font if available
     font_url = ''
     font_src = os.path.join(boba_dir, 'img', 'fonts', 'NotoSansTC.ttf')
@@ -404,13 +409,17 @@ def main():
         shutil.copy(font_src, os.path.join(tmpdir, 'NotoSansTC.ttf'))
         font_url = f'http://localhost:{port}/NotoSansTC.ttf'
 
-    # Convert logo SVG to PNG
+    # Convert logo to PNG (prefer webp over svg to avoid rsvg-convert dependency)
+    logo_webp = os.path.join(boba_dir, 'img', 'blue.webp')
     logo_svg = os.path.join(boba_dir, 'img', 'blue.svg')
+    logo_src = logo_webp if os.path.exists(logo_webp) else logo_svg
     logo_png = os.path.join(tmpdir, 'logo.png')
-    subprocess.run([
-        'magick', '-background', 'none', '-density', '200',
-        logo_svg, '-trim', '+repage', '-resize', 'x80', logo_png
-    ], check=True)
+    magick_cmd = ['magick', '-background', 'none', logo_src,
+                  '-trim', '+repage', '-resize', 'x80', logo_png]
+    if logo_src.endswith('.svg'):
+        magick_cmd = ['magick', '-background', 'none', '-density', '200',
+                      logo_src, '-trim', '+repage', '-resize', 'x80', logo_png]
+    subprocess.run(magick_cmd, check=True)
     os.chdir(tmpdir)
     handler = SimpleHTTPRequestHandler
     handler.log_message = lambda *a: None  # silence logs
@@ -425,6 +434,7 @@ def main():
         date=date,
         hook=hook,
         font_url=font_url,
+        port=port,
     )
     cover_html_path = os.path.join(tmpdir, 'slide-cover.html')
     with open(cover_html_path, 'w', encoding='utf-8') as f:
