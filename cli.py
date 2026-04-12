@@ -64,6 +64,20 @@ def cmd_image(args):
     )
 
 
+def cmd_ingest(args):
+    """Wiki ingest: 用 Sonnet 把日報 ingest 進 boba-wiki"""
+    import subprocess
+    from datetime import date as _date
+    d = _date.fromisoformat(args.date) if args.date else _date.today()
+    script = Path("/home/node/boba-wiki/ingest.sh")
+    if not script.exists():
+        print("❌ boba-wiki/ingest.sh not found", file=sys.stderr)
+        sys.exit(1)
+    print(f"📥 Ingesting {d} into boba-wiki (Sonnet)...")
+    result = subprocess.run([str(script), str(d)], cwd="/home/node/boba-wiki")
+    sys.exit(result.returncode)
+
+
 def cmd_status(args):
     """查今天 pipeline 各步驟是否完成"""
     from datetime import date as _date
@@ -124,6 +138,10 @@ def build_parser() -> argparse.ArgumentParser:
     i.add_argument("--x-file", default="/tmp/boba_daily_x.txt")
     i.add_argument("--skip-carousel", action="store_true")
 
+    # ingest
+    ig = sub.add_parser("ingest", help="Wiki ingest: 把日報 ingest 進 boba-wiki（Sonnet）")
+    ig.add_argument("--date", help="YYYY-MM-DD（預設今天）")
+
     # status
     st = sub.add_parser("status", help="查今天 pipeline 進度")
     st.add_argument("--date", help="YYYY-MM-DD（預設今天）")
@@ -136,10 +154,11 @@ def main():
     args = parser.parse_args()
 
     dispatch = {
-        "fetch":  cmd_fetch,
-        "send":   cmd_send,
-        "image":  cmd_image,
-        "status": cmd_status,
+        "fetch":   cmd_fetch,
+        "send":    cmd_send,
+        "image":   cmd_image,
+        "ingest":  cmd_ingest,
+        "status":  cmd_status,
     }
     dispatch[args.cmd](args)
 
