@@ -27,6 +27,8 @@ KOL_LIST = [
     "EleanorTerrett", "DegenerateNews", "aixbt_agent", "DefiantNews",
     "followin_io_zh", "lanhubiji", "BinanceResearch", "WSJmarkets",
     "BitcoinMagazine", "alphanonceStaff", "lookonchain",
+    "dlnews", "MilkRoad", "HYPERDailyTK", "WatcherGuru",
+    "testingcatalog", "WuBlockchain",
 ]
 
 # ── Phase 0: blacklist ────────────────────────────────────────

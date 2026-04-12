@@ -7,7 +7,7 @@
 
 ## 全量名冊（每次 SCAN/TRACK 都掃）
 
-> 來源：使用者的 Twitter list `@minghua6699/news`，精簡至 15 個帳號。
+> 來源：使用者的 Twitter list `@minghua6699/news`，目前 21 個帳號。
 > 所有消費端 Skill 引用此名冊，不再各自維護 KOL 列表。
 
 | # | 帳號 | 名稱 | 類型 | 價值 | API 備註 |
@@ -27,6 +27,12 @@
 | 13 | `WSJmarkets` | WSJ Markets | TradFi 市場 | 華爾街日報市場版，美股/債券/商品即時新聞 | ✅ `get_twitter_user_tweets` |
 | 14 | `BitcoinMagazine` | Bitcoin Magazine | BTC 媒體 | BTC 生態新聞、ETF 動態、機構買入速報 | ✅ `get_twitter_user_tweets` |
 | 15 | `alphanonceStaff` | alphanonce Intern | 量化/宏觀分析 | 深度量化觀點、Druckenmiller 等大佬追蹤 | ⚠️ 需用 `search_twitter_advanced(from_user=...)` |
+| 16 | `dlnews` | DL News | 加密媒體 | 加密貨幣 & DeFi 新聞分析，準確客觀 | ✅ `get_twitter_user_tweets` |
+| 17 | `MilkRoad` | Milk Road | 加密/宏觀/AI | Crypto、macro、AI 投資資訊，受眾廣 | ✅ `get_twitter_user_tweets` |
+| 18 | `HYPERDailyTK` | Hyperliquid Daily | Hyperliquid 生態 | HYPE 生態日報、交易數據、空投追蹤 | ✅ `get_twitter_user_tweets` |
+| 19 | `WatcherGuru` | Watcher.Guru | 加密/金融速報 | 全方位加密 & 金融即時新聞，速度快 | ✅ `get_twitter_user_tweets` |
+| 20 | `testingcatalog` | TestingCatalog News | AI 新聞 | AI 產品動態報導，虛擬助理驅動 | ✅ `get_twitter_user_tweets` |
+| 21 | `WuBlockchain` | Wu Blockchain | 亞洲加密新聞 | Colin Wu 吳說區塊鏈，亞洲加密重要新聞 | ✅ `get_twitter_user_tweets` |
 
 ### 已移除（2026-03-30 精簡）
 
@@ -38,7 +44,6 @@
 | `BlockBeatsAsia` | 跟 BlockBeats 快訊（L1b）完全重複 |
 | `TechFlowPost` | 只貼連結無內文，無法提取資訊 |
 | `MuyaoShen` | 發文極少，多數是個人生活 |
-| `HYPERDailyTK` | Hyperliquid 專屬，跟日報選題交集小 |
 
 ---
 
