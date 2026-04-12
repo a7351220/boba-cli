@@ -69,12 +69,13 @@ def cmd_ingest(args):
     import subprocess
     from datetime import date as _date
     d = _date.fromisoformat(args.date) if args.date else _date.today()
-    script = Path("/home/node/boba-wiki/ingest.sh")
+    wiki_dir = Path(os.environ.get("BOBA_WIKI_DIR", Path.home() / "boba-wiki"))
+    script = wiki_dir / "ingest.sh"
     if not script.exists():
-        print("❌ boba-wiki/ingest.sh not found", file=sys.stderr)
+        print(f"❌ {script} not found (set BOBA_WIKI_DIR in .env)", file=sys.stderr)
         sys.exit(1)
     print(f"📥 Ingesting {d} into boba-wiki (Sonnet)...")
-    result = subprocess.run([str(script), str(d)], cwd="/home/node/boba-wiki")
+    result = subprocess.run([str(script), str(d)], cwd=str(wiki_dir))
     sys.exit(result.returncode)
 
 

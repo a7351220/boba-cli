@@ -80,8 +80,9 @@ generated: {target_date}T00:00:00+08:00
 
 def sync_to_wiki(tg_text: str, target_date: date) -> str | None:
     """Copy daily report to boba-wiki/raw/ for ingest."""
-    wiki_raw_dir = Path(f"/home/node/boba-wiki/raw/{target_date.year}/{target_date.month:02d}")
-    if not wiki_raw_dir.parent.exists():
+    wiki_dir = Path(os.environ.get("BOBA_WIKI_DIR", Path.home() / "boba-wiki"))
+    wiki_raw_dir = wiki_dir / "raw" / str(target_date.year) / f"{target_date.month:02d}"
+    if not wiki_dir.exists():
         return None  # boba-wiki not cloned
     wiki_raw_dir.mkdir(parents=True, exist_ok=True)
     raw_path = wiki_raw_dir / f"{target_date.day:02d}.md"
