@@ -1,6 +1,6 @@
 # Agent Browser Skill
 
-觸發：「開網頁」「截圖」「抓網頁」「scrape」「browser」「讀這個連結」「這篇文章寫什麼」「幫我看這個 URL」「CoinDesk scan」
+觸發：「開網頁」「截圖」「抓網頁」「scrape」「browser」「讀這個連結」「這篇文章寫什麼」「幫我看這個 URL」
 
 ---
 
@@ -94,32 +94,6 @@ npx agent-browser set device "iPhone 14"
 npx agent-browser open "<url>"
 npx agent-browser screenshot /tmp/mobile.png
 ```
-
----
-
-## CoinDesk Scanner
-
-日報 pipeline 用的 CoinDesk 新聞抓取工具。
-
-```bash
-cd /home/node/boba-cli
-
-# 掃首頁標題（~10s）
-bash scripts/scan_coindesk.sh
-
-# 標題 + 全文（~1.5min）
-bash scripts/scan_coindesk.sh --full
-
-# 只讀前 N 篇全文
-bash scripts/scan_coindesk.sh --full --top 10
-
-# 讀單篇
-bash scripts/scan_coindesk.sh --read "<coindesk-url>"
-```
-
-輸出：`/tmp/boba_coindesk_candidates.json`
-
-欄位：`source`, `title`, `content`（摘要）, `url`, `date`, `category`, `body`（全文）, `word_count`
 
 ---
 

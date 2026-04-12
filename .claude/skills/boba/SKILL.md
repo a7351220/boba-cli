@@ -47,10 +47,37 @@ uv run python3 cli.py image --date MMDD --prompt "..."
 
 ---
 
+## 補充來源：CoinDesk Scanner
+
+CoinDesk 是 Tier 1 幣圈媒體但 OpenNews API 沒有覆蓋。用 agent-browser 抓取，可在 Phase 1 選題時補料。
+
+```bash
+cd /home/node/boba-cli
+
+# 掃首頁標題 + 摘要（~10s）
+bash scripts/scan_coindesk.sh
+
+# 標題 + 每篇全文（~1.5min）
+bash scripts/scan_coindesk.sh --full
+
+# 只讀前 N 篇全文
+bash scripts/scan_coindesk.sh --full --top 10
+
+# 讀單篇全文
+bash scripts/scan_coindesk.sh --read "<coindesk-url>"
+```
+
+輸出：`/tmp/boba_coindesk_candidates.json`
+
+欄位：`source`, `title`, `content`（摘要）, `url`, `date`, `category`, `body`（全文）, `word_count`
+
+---
+
 ## 快速指令
 ```bash
 uv run python3 cli.py status   # 查今天進度
 uv run python3 cli.py fetch    # 抓資料
 uv run python3 cli.py send     # 發測試頻道
 uv run python3 cli.py image --date MMDD --prompt "..."
+bash scripts/scan_coindesk.sh --full --top 10  # CoinDesk 補料
 ```
