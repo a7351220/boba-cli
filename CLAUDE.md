@@ -12,18 +12,21 @@ uv run python3 cli.py fetch                           # Phase 0+1：抓資料
 uv run python3 cli.py send                            # Phase 4：發 @test3635
 uv run python3 cli.py send --channel official         # Phase 4：發正式頻道（需使用者確認）
 uv run python3 cli.py image --date MMDD --prompt "..." # Phase 5：生圖 + carousel
+uv run python3 cli.py ingest                          # Wiki ingest（用 Sonnet 獨立跑）
+uv run python3 cli.py ingest --date 2026-04-12        # 指定日期 ingest
 ```
 
 ## 日報 Pipeline
 
 ```
-fetch → Claude 選題撰稿 → send → image
+fetch → Claude 選題撰稿 → send → ingest → image
 ```
 
 1. `fetch` — 抓 BlockBeats + OpenNews + 15 KOL，輸出候選 JSON（含 blacklist）
 2. Claude 讀 JSON → 判斷選題 → 寫 TG 版 + X 版 → 用 Python Write 工具存成 `/tmp/boba_daily_tg.txt` 和 `/tmp/boba_daily_x.txt`
-3. `send` — 驗 UTF-8 → 發 @test3635 → 存 `history/`
-4. `image` — Claude 構思 prompt → 生 16:9 → 裁 4:5 → carousel → sendPhoto
+3. `send` — 驗 UTF-8 → 發 @test3635 → 存 `history/` → 自動同步到 `boba-wiki/raw/`
+4. `ingest` — 用 Sonnet 獨立 session 把日報 ingest 進 boba-wiki（更新/建立 wiki pages）
+5. `image` — Claude 構思 prompt → 生 16:9 → 裁 4:5 → carousel → sendPhoto
 
 ## 撰稿規範（Claude 撰稿時必讀）
 

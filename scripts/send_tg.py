@@ -78,6 +78,17 @@ generated: {target_date}T00:00:00+08:00
     return str(path)
 
 
+def sync_to_wiki(tg_text: str, target_date: date) -> str | None:
+    """Copy daily report to boba-wiki/raw/ for ingest."""
+    wiki_raw_dir = Path(f"/home/node/boba-wiki/raw/{target_date.year}/{target_date.month:02d}")
+    if not wiki_raw_dir.parent.exists():
+        return None  # boba-wiki not cloned
+    wiki_raw_dir.mkdir(parents=True, exist_ok=True)
+    raw_path = wiki_raw_dir / f"{target_date.day:02d}.md"
+    raw_path.write_text(tg_text.strip() + "\n", encoding="utf-8")
+    return str(raw_path)
+
+
 def main(channel: str = "test", tg_file: str = "/tmp/boba_daily_tg.txt",
          x_file: str = "/tmp/boba_daily_x.txt", target_date: date | None = None):
     if target_date is None:
@@ -121,6 +132,11 @@ def main(channel: str = "test", tg_file: str = "/tmp/boba_daily_tg.txt",
     # 存檔
     saved = archive(tg_text, target_date)
     print(f"✅ 已存檔：{saved}")
+
+    # 同步到 boba-wiki raw/
+    wiki_raw = sync_to_wiki(tg_text, target_date)
+    if wiki_raw:
+        print(f"✅ 已同步到 wiki：{wiki_raw}")
 
 
 if __name__ == "__main__":
