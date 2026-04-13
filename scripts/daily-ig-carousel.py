@@ -300,7 +300,7 @@ def generate_cover_html(cover_url, logo_url, date, hook, font_url='', port=18765
     <div class="headline">
       <div class="date-badge"><img src="http://localhost:{port}/boba-emoji.png" style="height:1.2em;vertical-align:middle;margin-right:4px"> {date} 每日快報</div>
       <h1 class="hook">{hook}</h1>
-      <div class="swipe">👉 滑動看完整 8 則新聞</div>
+      <div class="swipe">► 滑動看完整 8 則新聞</div>
     </div>
     <div class="bottom">
       <div class="brand">
