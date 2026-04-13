@@ -1,0 +1,27 @@
+name: Daily BOBA Trigger
+
+on:
+  schedule:
+    # Every day at 01:00 UTC = 09:00 Taiwan time (UTC+8)
+    - cron: '0 1 * * *'
+  workflow_dispatch: # Allow manual trigger for testing
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord mention to trigger daily pipeline
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::error::DISCORD_WEBHOOK_URL secret not configured"
+            exit 1
+          fi
+
+          # Mention the bot in channel 1490895377367433278
+          # Bot ID: 1490889625374429306 (AgentBroker)
+          curl -sf -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{"content":"<@1490889625374429306> 跑日報","username":"BOBA Scheduler"}'
+          echo "Sent daily trigger mention"
