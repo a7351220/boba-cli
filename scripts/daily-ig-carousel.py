@@ -88,18 +88,18 @@ def generate_slide_html(num, title, body, cover_url, logo_url, total, font_url='
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
     background: #FF8374;
-    border-radius: 12px;
+    border-radius: 16px;
     color: white;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 800;
   }}
   .title {{
-    font-size: 44px;
+    font-size: 64px;
     font-weight: 900;
-    line-height: 1.45;
+    line-height: 1.35;
     color: white;
     text-shadow: 0 2px 24px rgba(0,0,0,0.6);
   }}
@@ -110,9 +110,9 @@ def generate_slide_html(num, title, body, cover_url, logo_url, total, font_url='
     border-radius: 2px;
   }}
   .body-text {{
-    font-size: 29px;
+    font-size: 42px;
     font-weight: 400;
-    line-height: 1.9;
+    line-height: 1.75;
     color: rgba(255,255,255,0.85);
     text-shadow: 0 1px 16px rgba(0,0,0,0.5);
   }}
@@ -136,18 +136,18 @@ def generate_slide_html(num, title, body, cover_url, logo_url, total, font_url='
     background: rgba(255,255,255,0.2);
   }}
   .brand-name {{
-    font-size: 16px;
+    font-size: 18px;
     color: rgba(255,255,255,0.65);
     font-weight: 500;
     letter-spacing: 0.5px;
   }}
   .brand-handle {{
-    font-size: 13px;
+    font-size: 15px;
     color: rgba(255,255,255,0.35);
     margin-top: 2px;
   }}
   .page-num {{
-    font-size: 15px;
+    font-size: 17px;
     color: rgba(255,255,255,0.35);
     letter-spacing: 2px;
   }}
@@ -242,14 +242,14 @@ def generate_cover_html(cover_url, logo_url, date, hook, font_url='', port=18765
     letter-spacing: 1px;
   }}
   .hook {{
-    font-size: 40px;
+    font-size: 50px;
     font-weight: 900;
-    line-height: 1.4;
+    line-height: 1.35;
     color: white;
     text-shadow: 0 2px 20px rgba(0,0,0,0.5);
   }}
   .swipe {{
-    font-size: 16px;
+    font-size: 18px;
     color: rgba(255,255,255,0.45);
     letter-spacing: 0.5px;
     margin-top: 4px;
@@ -274,13 +274,13 @@ def generate_cover_html(cover_url, logo_url, date, hook, font_url='', port=18765
     background: rgba(255,255,255,0.2);
   }}
   .brand-name {{
-    font-size: 16px;
+    font-size: 18px;
     color: rgba(255,255,255,0.65);
     font-weight: 500;
     letter-spacing: 0.5px;
   }}
   .brand-handle {{
-    font-size: 13px;
+    font-size: 15px;
     color: rgba(255,255,255,0.35);
     margin-top: 2px;
   }}
@@ -358,7 +358,7 @@ def chrome_screenshot(html_path, output_path, port):
     ], capture_output=True, timeout=30)
     # Crop to 1080x1350
     subprocess.run([
-        'magick', abs_output,
+        'magick' if shutil.which('magick') else 'convert', abs_output,
         '-crop', '1080x1350+0+0', '+repage',
         abs_output
     ], check=True)
@@ -414,10 +414,11 @@ def main():
     logo_svg = os.path.join(boba_dir, 'img', 'blue.svg')
     logo_src = logo_webp if os.path.exists(logo_webp) else logo_svg
     logo_png = os.path.join(tmpdir, 'logo.png')
-    magick_cmd = ['magick', '-background', 'none', logo_src,
+    magick_bin = 'magick' if shutil.which('magick') else 'convert'
+    magick_cmd = [magick_bin, '-background', 'none', logo_src,
                   '-trim', '+repage', '-resize', 'x80', logo_png]
     if logo_src.endswith('.svg'):
-        magick_cmd = ['magick', '-background', 'none', '-density', '200',
+        magick_cmd = [magick_bin, '-background', 'none', '-density', '200',
                       logo_src, '-trim', '+repage', '-resize', 'x80', logo_png]
     subprocess.run(magick_cmd, check=True)
     os.chdir(tmpdir)
